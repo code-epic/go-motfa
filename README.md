@@ -1,3 +1,8 @@
+
+<p align="center">
+    <img align="center" src="https://github.com/code-epic/go-motfa/blob/main/images/pla_accion.png" width=" 200px;"/>
+</p>
+
 ### Motor de decisiones
 
 Un motor de decisiones es una herramienta tecnológica que permite automatizar el proceso de toma de decisiones. Este proceso se basa en un conjunto de reglas o lógica que se aplican a un conjunto de datos para generar una salida.
