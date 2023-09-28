@@ -1,6 +1,6 @@
 
 <p align="center">
-    <img align="center" src="https://github.com/code-epic/go-motfa/blob/main/images/pla_accion.png" width=" 200px;"/>
+    <img align="center" src="https://github.com/code-epic/go-motfa/blob/main/images/pla_accion.png" width="350px;"/>
 </p>
 
 ### Motor de decisiones
