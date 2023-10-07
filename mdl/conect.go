@@ -12,9 +12,10 @@ import (
 )
 
 type Connect struct {
-	Data  string
-	Error string
-	Time  time.Time
+	Data     string
+	DataByte []byte
+	Error    string
+	Time     time.Time
 }
 
 func (C *Connect) Conection(method string, url string, jsonData []byte) {
@@ -25,7 +26,7 @@ func (C *Connect) Conection(method string, url string, jsonData []byte) {
 	} else {
 		resp, err = http.NewRequest("GET", url, nil)
 	}
-
+	fmt.Println(url)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -35,7 +36,9 @@ func (C *Connect) Conection(method string, url string, jsonData []byte) {
 	if error != nil {
 		C.Data = error.Error()
 	} else {
+
 		body, _ := ioutil.ReadAll(response.Body)
+		C.DataByte = body
 		C.Data = string(body)
 	}
 

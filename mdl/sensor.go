@@ -1,25 +1,44 @@
 package mdl
 
-import "runtime"
+import (
+	"context"
+	"runtime"
+	"time"
+)
 
 // Sensor de decisiones
 type Sensor struct {
-	Codigo     int
-	Tareas     int
-	Memoria    string
-	Cantidad   int
-	Limite     int
-	Espacio    int
-	MaxNucleos int
-	Min        int
+	Code    int
+	Task    int
+	Memory  string
+	Count   int
+	Limit   int
+	Space   int
+	MaxCore int
+	Min     int
 }
 
 func init() {
 	var ld Load
-	ld.Conections()
+	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(ctx, time.Second*4)
+	defer cancel()
+
+	go ld.Analyzed(ctx)
+	ld.ListApi()
+
+	for {
+		select {
+		case <-ctx.Done():
+			//  ld.TestinFnx()
+			//	ld.SendData()
+			print("Finalizando ")
+			return
+		}
+	}
 }
 
 func (S *Sensor) Evaluar() {
-	S.MaxNucleos = runtime.GOMAXPROCS(1)
-	S.Cantidad = 1000
+	S.MaxCore = runtime.GOMAXPROCS(1)
+	S.Count = 1000
 }

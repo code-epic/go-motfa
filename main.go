@@ -14,13 +14,14 @@ func main() {
 	bloque.Iniciar()
 	ss.Evaluar()
 
-	fmt.Println("Pudes ejecutar un maximo de ", ss.MaxNucleos)
+	fmt.Println("Pudes ejecutar un maximo de ", ss.MaxCore)
 
-	go bloque.Inferir(ss.Cantidad, true, canal)
-	go bloque.Inferir(ss.Cantidad, false, canal)
+	go bloque.Inferir(ss.Count, true, canal)
+	go bloque.Inferir(ss.Count, false, canal)
 
 	x, y := <-canal, <-canal
 	fmt.Println("Resultado del canal", x+y)
+
 	fmt.Println("Finalizando")
 
 }
