@@ -26,7 +26,6 @@ func (C *Connect) Conection(method string, url string, jsonData []byte) {
 	} else {
 		resp, err = http.NewRequest("GET", url, nil)
 	}
-	fmt.Println(url)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

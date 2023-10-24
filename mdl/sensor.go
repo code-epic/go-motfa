@@ -21,11 +21,10 @@ type Sensor struct {
 func init() {
 	var ld Load
 	ctx := context.Background()
-	ctx, cancel := context.WithTimeout(ctx, time.Second*4)
+	ctx, cancel := context.WithTimeout(ctx, time.Second*2)
 	defer cancel()
 
 	go ld.Analyzed(ctx)
-	ld.ListApi()
 
 	for {
 		select {

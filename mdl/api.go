@@ -19,6 +19,15 @@ type RS struct {
 	Pie      interface{}  `json:"Pie"`
 }
 
+// RS Establece la respuesta de la API
+type RST struct {
+	Msj         string `json:"msj"`
+	Tipo        int    `json:"tipo"`
+	Fecha       string `json:"fecha"`
+	Responsable int    `json:"responsable"`
+	Contenido   string `json:"contenido"`
+}
+
 // ApiCore Estructura de conexion
 type ApiCore struct {
 	ID            string      `json:"id"`
@@ -65,11 +74,14 @@ type ApiCore struct {
 	TipoDuracion  int         `json:"tipoduracion"` //0 Segundos, 1 Minutas, 2 Horas
 }
 
-var jsonApiData = []byte(`{
-	"funcion": "_SYS_ListarAPI",
-	"parametros": "PGMOTFA"
-}`)
+type ExecApi struct {
+	Function   string      `json:"funcion"`
+	Parameters string      `json:"parametros"`
+	Values     interface{} `json:"valores"`
+	PreCode    string      `json:"precodigo"`
+}
 
+// "parametros": "PGMOTFA"
 type API struct {
 	Data   []ApiCore
 	Result []RS
@@ -77,12 +89,32 @@ type API struct {
 	Size   int
 }
 
+func (E *ExecApi) ToJson() []byte {
+	jSon, _ := json.Marshal(E)
+
+	//fmt.Println(string(jSon))
+	return jSon
+}
+
+// getDefApi Metodo privado de generar la definicion de APICore
+func getDefApi() []byte {
+	var fnx ExecApi
+	fnx.Function = FNX_GetAPI
+	fnx.Parameters = "MYCFEPD"
+	jsonP, err := json.Marshal(fnx)
+
+	if err != nil {
+		fmt.Println("Error en el formato ", err.Error())
+	}
+	return jsonP
+}
+
+// GetAll Obtener Todas las api de un driver
 func (a *API) GetAll() {
 	var cn Connect
-
 	url := URL + "crud:541f2bd069277d053a45cac13099e185.sse"
-	cn.Conection("POST", url, jsonApiData)
-	//fmt.Println(cn.Data)
+	cn.Conection("POST", url, getDefApi())
+
 	err := json.Unmarshal(cn.DataByte, &a.Data)
 	if err != nil {
 		fmt.Println("Error en el formato ", err.Error())
@@ -90,11 +122,12 @@ func (a *API) GetAll() {
 	a.Size = len(a.Data)
 }
 
+// GetSql Obtener listado de SQL
 func (a *API) GetSql() {
 	var cn Connect
 
 	url := URL + "crud:541f2bd069277d053a45cac13099e185.sse"
-	cn.Conection("POST", url, jsonApiData)
+	cn.Conection("POST", url, getDefApi())
 	//fmt.Println(cn.Data)
 	err := json.Unmarshal(cn.DataByte, &a.Result)
 	if err != nil {
@@ -103,8 +136,8 @@ func (a *API) GetSql() {
 	a.Size = len(a.Result)
 }
 
-func (a *API) List() {
+func (a *API) Print() {
 	for _, v := range a.Data {
-		fmt.Println(v.Funcion, v.Metodo, v.PreCodigo)
+		fmt.Println(v.Funcion, v.Metodo)
 	}
 }
